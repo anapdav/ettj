@@ -282,11 +282,14 @@ const SPOTS = [{nome:"10 anos", j:2, cor:"var(--s1)"}, {nome:"5 anos", j:1, cor:
 const W3 = 1160, H3 = 340, M3 = {t:14, r:86, b:26, l:40};
 
 function ticksNice(min, max, alvo) {
+  // ticks "bonitos" cobrindo TODO o intervalo: 1º tick <= min e último >= max,
+  // senão a série desenha fora da área e corta (bug visto no juro real)
   const passos = [.25, .5, 1, 2, 2.5, 5];
   const bruto = (max - min) / alvo;
   const p = passos.find(s => s >= bruto) || 10;
   const t = [];
-  for (let v = Math.floor(min/p)*p; v <= max + 1e-9; v += p) if (v >= min - 1e-9) t.push(+v.toFixed(2));
+  const hi = Math.ceil(max / p) * p;
+  for (let v = Math.floor(min / p) * p; v <= hi + 1e-9; v += p) t.push(+v.toFixed(2));
   return t;
 }
 function renderHist(curva) {
@@ -359,7 +362,7 @@ function renderHist(curva) {
 const ult = D.datas[D.datas.length-1];
 document.getElementById("sub").innerHTML =
   `Último dado: <b style="color:var(--destaque)">${fmtData(ult)}</b> · ` +
-  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 10/07/2026 09:05`;
+  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 10/07/2026 11:26`;
 const inp = document.getElementById("dtref");
 inp.min = D.datas[0]; inp.max = ult; inp.value = ult;
 const selAno = document.getElementById("ano");
