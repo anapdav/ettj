@@ -363,7 +363,7 @@ function renderHist(curva) {
 const ult = D.datas[D.datas.length-1];
 document.getElementById("sub").innerHTML =
   `Último dado: <b style="color:var(--destaque)">${fmtData(ult)}${D.prelim.includes(ult) ? " (prévia intradiária)" : ""}</b> · ` +
-  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 19/07/2026 15:00`;
+  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 20/07/2026 09:05`;
 const inp = document.getElementById("dtref");
 inp.min = D.datas[0]; inp.max = ult; inp.value = ult;
 const selAno = document.getElementById("ano");
