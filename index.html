@@ -279,7 +279,7 @@ function render() {
 }
 
 // ---------- gráfico 3 (série histórica) ----------
-const SPOTS = [{nome:"10 anos", j:2, cor:"var(--s1)"}, {nome:"5 anos", j:1, cor:"var(--s2)"}, {nome:"2 anos", j:0, cor:"var(--s4)"}];
+const SPOTS = [{nome:"10 anos (spot)", j:2, cor:"var(--s1)"}, {nome:"5 anos (spot)", j:1, cor:"var(--s2)"}, {nome:"2 anos (spot)", j:0, cor:"var(--s4)"}];
 const W3 = 1160, H3 = 340, M3 = {t:14, r:86, b:26, l:40};
 
 function ticksNice(min, max, alvo) {
@@ -335,9 +335,9 @@ function renderHist(curva) {
   for (const p of pontas)
     s2 += `<text class="rotulo" x="${W3-M3.r+8}" y="${p.y+4}" fill="${p.cor}">${p.nome.split(" ")[0]}y ${fmt(p.v)}</text>`;
   document.getElementById("g3").innerHTML = `<svg viewBox="0 0 ${W3} ${H3}">${s}${s2}</svg>`;
-  document.getElementById("t3").textContent = NOMES[curva] + " — histórico";
+  document.getElementById("t3").textContent = NOMES[curva] + " — histórico (taxas spot)";
   document.getElementById("nota3").textContent =
-    `% a.a., taxas spot de 2, 5 e 10 anos (504/1260/2520 du) — ${fmtData(dts[0])} a ${fmtData(dts[n-1])}`;
+    `% a.a., taxas spot de 2, 5 e 10 anos (504/1260/2520 du; ≠ FRAs dos gráficos acima) — ${fmtData(dts[0])} a ${fmtData(dts[n-1])}`;
   legenda(document.getElementById("lg3"), SPOTS.map(sp => ({nome: sp.nome, estilo:`background:${sp.cor}`})));
 
   // crosshair próprio (x = tempo)
@@ -363,7 +363,7 @@ function renderHist(curva) {
 const ult = D.datas[D.datas.length-1];
 document.getElementById("sub").innerHTML =
   `Último dado: <b style="color:var(--destaque)">${fmtData(ult)}${D.prelim.includes(ult) ? " (prévia intradiária)" : ""}</b> · ` +
-  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 22/07/2026 15:00`;
+  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 22/07/2026 15:36`;
 const inp = document.getElementById("dtref");
 inp.min = D.datas[0]; inp.max = ult; inp.value = ult;
 const selAno = document.getElementById("ano");
