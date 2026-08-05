@@ -35,6 +35,8 @@
               letter-spacing:.08em; padding:4px 11px; border-radius:6px; user-select:none; }
   h1 { font-size:19px; margin:0; font-weight:650; }
   .sub { color:var(--ink2); margin-bottom:14px; }
+  #alerta { display:none; background:#c22f2e; color:#fff; border-radius:8px;
+            padding:8px 14px; margin-bottom:14px; font-weight:600; }
   .controles { display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-bottom:16px; }
   .controles label { color:var(--ink2); margin-right:6px; }
   .controles input, .controles select {
@@ -72,6 +74,7 @@
   <h1>ETTJ ANBIMA — FRAs: nominal, real e implícita</h1>
 </header>
 <div class="sub" id="sub"></div>
+<div id="alerta"></div>
 
 <div class="controles">
   <span><label for="curva">Curva</label>
@@ -363,7 +366,15 @@ function renderHist(curva) {
 const ult = D.datas[D.datas.length-1];
 document.getElementById("sub").innerHTML =
   `Último dado: <b style="color:var(--destaque)">${fmtData(ult)}${D.prelim.includes(ult) ? " (prévia intradiária)" : ""}</b> · ` +
-  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 05/08/2026 09:45`;
+  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 05/08/2026 09:46`;
+// vigia de atualização: dado com 4+ dias corridos = pipeline parado -> banner
+const diasSemDado = Math.floor((Date.now() - new Date(ult + "T12:00")) / 864e5);
+if (diasSemDado >= 4) {
+  const al = document.getElementById("alerta");
+  al.style.display = "block";
+  al.textContent = `⚠ Dados desatualizados: último dado é de ${fmtData(ult)} (${diasSemDado} dias). ` +
+    `A atualização automática pode ter parado — verificar atualizacao.log na pasta Anbima.`;
+}
 const inp = document.getElementById("dtref");
 inp.min = D.datas[0]; inp.max = ult; inp.value = ult;
 const selAno = document.getElementById("ano");
