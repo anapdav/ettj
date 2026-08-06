@@ -333,7 +333,7 @@ function renderHist(curva) {
   const pontas = SPOTS.map(sp => ({...sp, v: vals[n-1][sp.j], y: Yh(vals[n-1][sp.j])}))
     .sort((a,b) => a.y - b.y);
   for (let i = 1; i < pontas.length; i++)
-    if (pontas[i].y - pontas[i-1].y < 15) pontas[i].y = pontas[i-1].y + 15;
+    if (pontas[i].y - pontas[i-1].y < 17) pontas[i].y = pontas[i-1].y + 17;
   let s2 = "";
   for (const p of pontas)
     s2 += `<text class="rotulo" x="${W3-M3.r+8}" y="${p.y+4}" fill="${p.cor}">${p.nome.split(" ")[0]}y ${fmt(p.v)}</text>`;
@@ -366,7 +366,7 @@ function renderHist(curva) {
 const ult = D.datas[D.datas.length-1];
 document.getElementById("sub").innerHTML =
   `Último dado: <b style="color:var(--destaque)">${fmtData(ult)}${D.prelim.includes(ult) ? " (prévia intradiária)" : ""}</b> · ` +
-  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 06/08/2026 13:15`;
+  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 06/08/2026 13:29`;
 // vigia de atualização: dado com 4+ dias corridos = pipeline parado -> banner
 const diasSemDado = Math.floor((Date.now() - new Date(ult + "T12:00")) / 864e5);
 if (diasSemDado >= 4) {
