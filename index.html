@@ -354,7 +354,7 @@ function renderHist(curva) {
 const ult = D.datas[D.datas.length-1];
 document.getElementById("sub").innerHTML =
   `Último dado: <b style="color:var(--destaque)">${fmtData(ult)}${D.prelim.includes(ult) ? " (prévia intradiária)" : ""}</b> · ` +
-  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 24/08/2026 20:35`;
+  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 25/08/2026 09:05`;
 // vigia de atualização: dado com 4+ dias corridos = pipeline parado -> banner
 const diasSemDado = Math.floor((Date.now() - new Date(ult + "T12:00")) / 864e5);
 if (diasSemDado >= 4) {
