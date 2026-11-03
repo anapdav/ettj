@@ -69,7 +69,6 @@
 <header>
   <span id="logoAsif">ASIF</span><span class="cap">Capital</span>
   <h1>ETTJ ANBIMA — FRAs: nominal, real e implícita</h1>
-  <span style="margin-left:auto;font-size:12.5px"><a href="premio_focus.html" style="color:var(--ink2)">Prêmios vs. Focus &rarr;</a></span>
 </header>
 <div class="sub" id="sub"></div>
 <div id="alerta"></div>
@@ -77,6 +76,7 @@
 <div class="abas">
   <button class="aba on" data-aba="curvas">Curvas</button>
   <button class="aba" data-aba="focus">Focus — projeções</button>
+  <button class="aba" data-aba="premio">Prêmios vs. Focus</button>
 </div>
 
 <div id="aba-curvas">
@@ -136,9 +136,14 @@
     <div class="nota" style="text-align:left;margin-top:10px">
       Fonte: Expectativas de Mercado (Olinda/BCB), base de cálculo: todos os respondentes ·
       Δ4s = mediana atual − mediana de ~4 semanas antes ·
-      cruzamento com a curva: <a href="premio_focus.html">Prêmios ETTJ vs. Focus →</a>
+      cruzamento com a curva: <a href="#" onclick="document.querySelector('[data-aba=premio]').click();return false">Prêmios ETTJ vs. Focus →</a>
     </div>
   </div>
+</div>
+
+<div id="aba-premio" style="display:none">
+  <iframe id="frame-premio" style="width:100%;height:3200px;border:none;border-radius:10px;background:var(--card)"
+          title="Prêmios da ETTJ sobre o Focus"></iframe>
 </div>
 
 <div class="tt" id="tt"></div>
@@ -391,8 +396,17 @@ function renderHist(curva) {
 // ---------- abas ----------
 document.querySelectorAll(".aba").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll(".aba").forEach(x => x.classList.toggle("on", x === b));
-  document.getElementById("aba-curvas").style.display = b.dataset.aba === "curvas" ? "" : "none";
-  document.getElementById("aba-focus").style.display = b.dataset.aba === "focus" ? "" : "none";
+  for (const d of document.querySelectorAll("[id^='aba-']"))
+    d.style.display = d.id === "aba-" + b.dataset.aba ? "" : "none";
+  if (b.dataset.aba === "premio") {   // carrega a página de prêmios só no 1º clique
+    const f = document.getElementById("frame-premio");
+    if (!f.src) {
+      f.src = "premio_focus.html";
+      f.addEventListener("load", () => {
+        try { f.style.height = (f.contentDocument.body.scrollHeight + 60) + "px"; } catch (e) {}
+      });
+    }
+  }
 }));
 
 // ---------- aba Focus (medianas anuais, último boletim vs ~4 semanas) ----------
@@ -424,7 +438,7 @@ document.querySelectorAll(".aba").forEach(b => b.addEventListener("click", () =>
 const ult = D.datas[D.datas.length-1];
 document.getElementById("sub").innerHTML =
   `Último dado: <b style="color:var(--destaque)">${fmtData(ult)}${D.prelim.includes(ult) ? " (prévia intradiária)" : ""}</b> · ` +
-  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 03/11/2026 15:41`;
+  `taxas forward (FRAs) das curvas nominal, real e de inflação implícita — ETTJ ANBIMA, desde ${fmtData(D.datas[0])} · página gerada em 03/11/2026 15:46`;
 // Vigia de atualização, contado em DIAS ÚTEIS da B3 (não em dias corridos).
 // Antes contava dias corridos com limiar de 4, e disparava alarme falso em toda
 // ponte: em 08/09/2026 (feriado de 7/9 + fim de semana) o último dado era de
